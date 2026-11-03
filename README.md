@@ -16,10 +16,10 @@ It has three parts:
 *The query image (left) and the five most similar images, read back from the
 LanceDB table. CI regenerates this picture on every push.*
 
-The agent evaluation found nine issues across the published docs and SDK, such
-as a quickstart step that crashes in a clean install and index examples that
-teach deprecated calls. Eight reproduce in CI today; one hypothesis didn't hold
-and is reported as such.
+The agent evaluation found nine issues in the published docs and SDK, such as a
+quickstart step that crashes in a clean install and index examples that teach
+deprecated calls. Seven are reproduced by scripts in CI; two are observations
+about links and hosting. One hypothesis didn't hold and is reported as such.
 
 ## How the docs stay accurate
 
