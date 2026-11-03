@@ -12,6 +12,7 @@ lancedb 0.41.0, pyarrow 26.0.1, Python 3.12.15 on Linux-7.0.0-1017-azure-x86_64-
 | F6 | Reproduced | create_index() in embedded LanceDB: blocking or asynchronous? |
 | F7 | Reproduced | Vector type is inferred from the column name |
 | F8 | Reproduced | Searching with a different metric than the index was built with |
+| F9 | Reproduced | Scalar index page teaches create_scalar_index, which the SDK deprecates |
 
 ## Details
 
@@ -123,4 +124,15 @@ lancedb 0.41.0, pyarrow 26.0.1, Python 3.12.15 on Linux-7.0.0-1017-azure-x86_64-
   "cosine": "uses index (ANN)",
   "l2": "full scan (no ANN node)"
 }
+```
+
+### F9: Scalar index page teaches create_scalar_index, which the SDK deprecates
+
+- Docs say: tbl.create_scalar_index("publisher", index_type="BITMAP")
+- Observed:
+
+```json
+[
+  "create_scalar_index is deprecated as of 0.25.0. Use create_index() with config=BTree()/Bitmap()/LabelList() instead."
+]
 ```
