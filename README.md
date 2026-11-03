@@ -9,7 +9,7 @@ It has three parts:
 |---|---|
 | [Quickstart: Find similar images with LanceDB](docs/quickstart.md) | A tutorial for storing images, embeddings and metadata in one LanceDB table, then searching, filtering and indexing. Runs offline in about 10 minutes. |
 | [Runnable example](examples/image_search.py) | The same workflow as a script, with tests that check its results against a brute-force NumPy computation. |
-| [Agent evaluation of the LanceDB docs](docs/agent-eval.md) | What happened when an AI coding agent tried to complete this task from the published LanceDB docs, with each finding reproduced by a script in CI. |
+| [Agent evaluation of the LanceDB docs](docs/agent-eval.md) | What happened when an AI coding agent tried to complete this task from the published LanceDB docs, with code-level findings reproduced by scripts in CI. |
 
 ![A handwritten 0 followed by the five most similar images LanceDB returned, all handwritten 0s](docs/images/results.png)
 
