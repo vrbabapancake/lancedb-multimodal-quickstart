@@ -1,0 +1,18 @@
+# LanceDB multimodal quickstart
+
+> A tested tutorial for image similarity search with metadata filters in LanceDB (Python, lancedb 0.41.0). Every code block runs in CI. Offline; no API key.
+
+## Docs
+
+- [Quickstart: Find similar images with LanceDB](docs/quickstart.md): install, create a table with images and embeddings, vector search, SQL filters, IVF-PQ and bitmap indexes, reading images back, troubleshooting
+- [Agent evaluation of the LanceDB docs](docs/agent-eval.md): where an AI agent following the published LanceDB docs got stuck, with fixes
+
+## Code
+
+- [examples/image_search.py](examples/image_search.py): the full workflow as one script
+- [examples/digits_data.py](examples/digits_data.py): offline dataset and stand-in embeddings
+- [eval/run_probes.py](eval/run_probes.py): scripts that reproduce each documentation finding
+
+## Instructions
+
+- [AGENTS.md](AGENTS.md): API facts and rules for changing this repo
