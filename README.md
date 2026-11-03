@@ -11,6 +11,16 @@ It has three parts:
 | [Runnable example](examples/image_search.py) | The same workflow as a script, with tests that check its results against a brute-force NumPy computation. |
 | [Agent evaluation of the LanceDB docs](docs/agent-eval.md) | What happened when an AI coding agent tried to complete this task from the published LanceDB docs, with each finding reproduced by a script in CI. |
 
+![A handwritten 0 followed by the five most similar images LanceDB returned, all handwritten 0s](docs/images/results.png)
+
+*The query image (left) and the five most similar images, read back from the
+LanceDB table. CI regenerates this picture on every push.*
+
+The agent evaluation found nine issues across the published docs and SDK, such
+as a quickstart step that crashes in a clean install and index examples that
+teach deprecated calls. Eight reproduce in CI today; one hypothesis didn't hold
+and is reported as such.
+
 ## How the docs stay accurate
 
 - **Every code block in the quickstart runs in CI.** [`tests/test_quickstart_doc.py`](tests/test_quickstart_doc.py)

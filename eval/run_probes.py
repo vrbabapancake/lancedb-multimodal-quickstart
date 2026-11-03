@@ -194,7 +194,8 @@ def vector_name_inference(tmp: Path) -> dict:
     return {
         "reproduced": reproduced,
         "observed": observed,
-        "docs_say": "Not covered on the vector search or ingestion pages reviewed.",
+        "docs_say": "Not mentioned on the quickstart, multimodal, vector index or "
+        "scalar index pages.",
     }
 
 
