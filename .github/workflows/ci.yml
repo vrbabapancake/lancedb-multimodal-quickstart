@@ -48,6 +48,9 @@ jobs:
   agent-eval-probes:
     name: Agent-eval probes (clean install, as the published quickstart says)
     runs-on: ubuntu-latest
+    needs: test
+    permissions:
+      contents: write # to commit refreshed results back to the repo
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -58,12 +61,31 @@ jobs:
           python -m pip install --upgrade pip
           pip install lancedb
       - name: Run probes
-        run: python eval/run_probes.py
+        run: |
+          python eval/run_probes.py
+          cat eval/results.md
       - name: Publish results to the job summary
         run: cat eval/results.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Render the example's results picture for the README
+        run: |
+          pip install pillow scikit-learn
+          python examples/image_search.py
+          mkdir -p docs/images && cp data/results.png docs/images/results.png
       - uses: actions/upload-artifact@v4
         with:
           name: probe-results
           path: |
             eval/results.md
             eval/results.json
+      - name: Commit refreshed results
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add eval/results.md docs/images/results.png
+          if git diff --cached --quiet; then
+            echo "Results unchanged."
+          else
+            git commit -m "Refresh probe results and results picture [skip ci]"
+            git push
+          fi

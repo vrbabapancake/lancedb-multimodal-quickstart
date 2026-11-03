@@ -244,10 +244,10 @@ Things to know about these calls in LanceDB 0.41:
 - **`num_sub_vectors` must divide the vector length evenly** (32 / 8 = 4 here).
 - **The embedded library builds the index before `create_index()` returns.**
   LanceDB Enterprise builds indexes in the background; use `wait_for_index()` there.
-- **IVF-PQ needs enough rows to train.** See [Troubleshooting](#troubleshooting).
 - **New rows aren't indexed automatically.** After adding data, run
   `table.optimize()` to fold new rows into the index. Searches still find
-  unindexed rows, more slowly, in the meantime.
+  unindexed rows, more slowly, in the meantime. See
+  [Vector indexes](https://docs.lancedb.com/indexing/vector-index.md).
 
 To confirm a search uses the index, check its query plan:
 
@@ -299,7 +299,6 @@ image bytes only for the rows you display.
 |---|---|---|
 | `ModuleNotFoundError: No module named 'polars'` or `'pandas'` | `.to_polars()` and `.to_pandas()` need packages that `lancedb` doesn't install. | `pip install polars` or `pip install pandas`, or use `.to_list()` / `.to_arrow()`. |
 | `DeprecationWarning: The create_index() API with metric/num_partitions parameters is deprecated` | You used the older `create_index(metric=..., vector_column_name=...)` form, or `create_index()` with no arguments. | Use `create_index("column_name", config=IvfPq(distance_type="..."))`. |
-| Error while training an IVF-PQ index on a small table | IVF-PQ learns its compression from your data and needs enough rows. The [probe results](../eval/results.md) record the exact message and row counts. | Skip the index on small tables (search is exact without one), or add more rows first. |
 | Search on a column fails, or the column isn't treated as a vector | The column isn't a fixed-size list of floats; often its name lacks `vector`/`embedding` and no schema was given. | Declare it in the schema as `pa.list_(pa.float32(), DIM)`. |
 | Search is slow after building an index | The search `distance_type` differs from the index's, so the index is skipped. | Search with the metric you indexed with. Check with `.explain_plan()`. |
 | `Illegal instruction` on `import lancedb` | The default wheel needs AVX2 (x86_64 CPUs from 2013 on). | `pip uninstall lancedb && pip install lancedb-compat`. |
