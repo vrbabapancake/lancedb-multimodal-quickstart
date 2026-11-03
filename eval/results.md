@@ -97,7 +97,7 @@ lancedb 0.41.0, pyarrow 26.0.1, Python 3.12.15 on Linux-7.0.0-1017-azure-x86_64-
 
 ### F7: Vector type is inferred from the column name
 
-- Docs say: Not covered on the vector search or ingestion pages reviewed.
+- Docs say: Not mentioned on the quickstart, multimodal, vector index or scalar index pages.
 - Observed:
 
 ```json
