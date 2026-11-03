@@ -14,6 +14,8 @@ Python API for multimodal similarity search, or to change the tutorial.
   `table.create_index("embedding", config=IvfPq(distance_type="cosine"))`.
   The `create_index(metric=..., vector_column_name=...)` form is deprecated, and
   this repo's tests fail if you use it.
+- Create scalar indexes the same way: `create_index("label", config=Bitmap())`.
+  `create_scalar_index()` is deprecated since LanceDB 0.25.
 - Search with the same `distance_type` the index was built with, or the index is
   skipped. Confirm with `.explain_plan()`.
 - Declare vector columns as `pa.list_(pa.float32(), DIM)` in an explicit schema.

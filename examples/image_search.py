@@ -24,7 +24,7 @@ from pathlib import Path
 
 import lancedb
 import pyarrow as pa
-from lancedb.index import IvfPq
+from lancedb.index import Bitmap, IvfPq
 from PIL import Image
 
 from digits_data import EMBEDDING_DIM, decode_png, make_records
@@ -116,7 +116,7 @@ def build_indexes(table: lancedb.table.Table) -> None:
         name=VECTOR_INDEX_NAME,
     )
     # A bitmap index suits low-cardinality columns such as a 0-9 label.
-    table.create_scalar_index("label", index_type="BITMAP")
+    table.create_index("label", config=Bitmap(), name="label_idx")
 
 
 def save_results_picture(

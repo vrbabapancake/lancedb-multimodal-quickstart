@@ -1,8 +1,9 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 filterwarnings = [
-    # Fail on LanceDB's deprecated create_index form, so the docs never teach it.
+    # Fail on deprecated LanceDB calls, so the docs never teach one.
     'error:The create_index\(\) API:DeprecationWarning',
+    'error:.* is deprecated as of:DeprecationWarning',
 ]
 
 [tool.ruff]

@@ -220,6 +220,23 @@ def metric_mismatch(tmp: Path) -> dict:
     }
 
 
+@probe("F9", "Scalar index page teaches create_scalar_index, which the SDK deprecates")
+def deprecated_scalar_index(tmp: Path) -> dict:
+    table = make_table(tmp / "db", rows=100)
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        # As on the published scalar-index page.
+        table.create_scalar_index("label", index_type="BITMAP")
+    deprecations = [
+        str(w.message).splitlines()[0] for w in caught if issubclass(w.category, DeprecationWarning)
+    ]
+    return {
+        "reproduced": bool(deprecations),
+        "observed": deprecations or "no DeprecationWarning",
+        "docs_say": 'tbl.create_scalar_index("publisher", index_type="BITMAP")',
+    }
+
+
 def main() -> None:
     results = []
     for finding, title, fn in PROBES:

@@ -16,8 +16,8 @@ It has three parts:
 - **Every code block in the quickstart runs in CI.** [`tests/test_quickstart_doc.py`](tests/test_quickstart_doc.py)
   executes the guide's Python blocks in order and fails if any output differs
   from the guide's "Expected output" blocks.
-- **Deprecated calls fail the build.** Tests turn LanceDB's `create_index`
-  deprecation warning into an error, so the guide can't teach a call the SDK is retiring.
+- **Deprecated calls fail the build.** Tests turn LanceDB's
+  deprecation warnings into errors, so the guide can't teach a call the SDK is retiring.
 - **Pinned and latest.** CI tests the pinned `lancedb==0.41.0` on Linux and macOS
   with Python 3.10 to 3.13, and runs weekly against the newest LanceDB release to catch drift.
 - **Findings are reproducible.** [`eval/run_probes.py`](eval/run_probes.py) re-runs

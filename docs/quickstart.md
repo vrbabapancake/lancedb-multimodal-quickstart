@@ -214,14 +214,14 @@ faster in exchange for approximate results. Here's how to add one, plus a scalar
 index for the `label` column:
 
 ```python
-from lancedb.index import IvfPq
+from lancedb.index import Bitmap, IvfPq
 
 table.create_index(
     "embedding",
     config=IvfPq(distance_type="cosine", num_partitions=8, num_sub_vectors=8),
     name="embedding_idx",
 )
-table.create_scalar_index("label", index_type="BITMAP", name="label_idx")
+table.create_index("label", config=Bitmap(), name="label_idx")  # bitmap suits a 0-9 label
 
 print(sorted(index.name for index in table.list_indices()))
 print(table.index_stats("embedding_idx").num_unindexed_rows, "unindexed rows")
@@ -239,6 +239,8 @@ Things to know about these calls in LanceDB 0.41:
 - **Pass the column name first and an index config object.** The older form,
   `create_index(metric="cosine", vector_column_name=..., index_type=...)`, still
   works but raises a `DeprecationWarning`. So does a bare `create_index()`.
+- **Scalar indexes use the same `create_index()` call** with `BTree()`, `Bitmap()`
+  or `LabelList()`. `create_scalar_index()` is deprecated since LanceDB 0.25.
 - **Build and search with the same metric.** A search with a different
   `distance_type` can't use the index and scans every row instead.
 - **`num_sub_vectors` must divide the vector length evenly** (32 / 8 = 4 here).
@@ -299,6 +301,7 @@ image bytes only for the rows you display.
 |---|---|---|
 | `ModuleNotFoundError: No module named 'polars'` or `'pandas'` | `.to_polars()` and `.to_pandas()` need packages that `lancedb` doesn't install. | `pip install polars` or `pip install pandas`, or use `.to_list()` / `.to_arrow()`. |
 | `DeprecationWarning: The create_index() API with metric/num_partitions parameters is deprecated` | You used the older `create_index(metric=..., vector_column_name=...)` form, or `create_index()` with no arguments. | Use `create_index("column_name", config=IvfPq(distance_type="..."))`. |
+| `DeprecatedWarning: create_scalar_index is deprecated as of 0.25.0` | `create_scalar_index()` is being retired. | Use `create_index("column_name", config=BTree())`, `Bitmap()` or `LabelList()`. |
 | Search on a column fails, or the column isn't treated as a vector | The column isn't a fixed-size list of floats; often its name lacks `vector`/`embedding` and no schema was given. | Declare it in the schema as `pa.list_(pa.float32(), DIM)`. |
 | Search is slow after building an index | The search `distance_type` differs from the index's, so the index is skipped. | Search with the metric you indexed with. Check with `.explain_plan()`. |
 | `Illegal instruction` on `import lancedb` | The default wheel needs AVX2 (x86_64 CPUs from 2013 on). | `pip uninstall lancedb && pip install lancedb-compat`. |
