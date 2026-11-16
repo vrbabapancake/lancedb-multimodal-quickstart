@@ -1,6 +1,6 @@
 # Probe results
 
-lancedb 0.41.0, pyarrow 26.0.1, Python 3.12.16 on Linux-7.0.0-1019-azure-x86_64-with-glibc2.43
+lancedb 0.41.0, pyarrow 26.0.1, Python 3.12.16 on Linux-7.0.0-1016-aws-x86_64-with-glibc2.43
 
 | Finding | Status | Probe |
 |---|---|---|
